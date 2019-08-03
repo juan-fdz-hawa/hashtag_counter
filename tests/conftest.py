@@ -1,7 +1,13 @@
+from collections import namedtuple
 from uuid import uuid1
 from os import path
 
 import pytest
+
+
+class Args:
+    def __init__(self, hash_tags):
+        self.hash_tags = hash_tags
 
 
 @pytest.fixture
@@ -33,3 +39,13 @@ def valid_config_file(tmpdir):
     base_url: 'https://api.twitter.com/1.1'
     """)
     return path.join(config_file.dirname, config_file.basename)
+
+
+@pytest.fixture
+def args_with_many_hash_tags():
+    return Args(hash_tags=['1', '2', '3', '4', '5'])
+
+
+@pytest.fixture
+def args_with_duplicated_hash_tags():
+    return Args(hash_tags=['1', '2', '2', '2'])
