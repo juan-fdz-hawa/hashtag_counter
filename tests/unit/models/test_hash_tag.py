@@ -1,4 +1,13 @@
+import pytest
+
 from hashtag_counter import HashTag
+
+
+def test_name_must_not_have_spaces_nor_punctuation(bad_hash_tags, good_hash_tags):
+    with pytest.raises(ValueError) as e:
+        assert [HashTag(tag) for tag in bad_hash_tags]
+    assert str(e.value) == 'Invalid hash tag!'
+    assert [HashTag(tag) for tag in good_hash_tags]
 
 
 def test_refresh_url_not_set():

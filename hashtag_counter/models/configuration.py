@@ -10,7 +10,7 @@ class Configuration:
     @staticmethod
     def _config_is_valid(config_path: str, config: Dict[str, str]) -> bool:
         required = required_fields[path.basename(config_path)]
-        config_fields = {k for k in config.keys()}
+        config_fields = set(config.keys())
         return config_fields.issuperset(required)
 
     @classmethod
