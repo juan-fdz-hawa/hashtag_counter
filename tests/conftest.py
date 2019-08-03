@@ -49,3 +49,13 @@ def args_with_many_hash_tags():
 @pytest.fixture
 def args_with_duplicated_hash_tags():
     return Args(hash_tags=['1', '2', '2', '2'])
+
+
+@pytest.fixture
+def bad_hash_tags():
+    return ['bad one', 'bad.two', 'bad!three', '@badfour', '#bad.six']
+
+
+@pytest.fixture
+def good_hash_tags():
+    return ['goodone', 'AnotherExample']
