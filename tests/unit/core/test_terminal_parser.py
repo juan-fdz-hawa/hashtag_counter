@@ -8,7 +8,7 @@ def test_process_args_with_duplicate_hash_tags(args_with_duplicated_hash_tags):
     result = process_args(args_with_duplicated_hash_tags, logger)
 
     logger.info.assert_called_once_with('Duplicated hash tags detected! Only taking unique values')
-    assert list({k for k in args_with_duplicated_hash_tags.hash_tags}) == result.hash_tags
+    assert list(set(args_with_duplicated_hash_tags.hash_tags)) == result.hash_tags
 
 
 def test_process_args_with_many_hash_tags(args_with_many_hash_tags):

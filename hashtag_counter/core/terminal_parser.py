@@ -4,7 +4,7 @@ MAX_HASH_TAGS = 4
 
 
 def process_args(args, logger):
-    unq_hash_tags = {tag for tag in args.hash_tags}
+    unq_hash_tags = set(args.hash_tags)
     if len(unq_hash_tags) < len(args.hash_tags):
         logger.info('Duplicated hash tags detected! Only taking unique values')
         args.hash_tags = list(unq_hash_tags)

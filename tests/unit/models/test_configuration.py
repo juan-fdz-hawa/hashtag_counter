@@ -17,5 +17,4 @@ def test_configuration_with_invalid_file(invalid_config_file):
 
 def test_configuration_with_valid_file(valid_config_file):
     result = Configuration.from_yaml(valid_config_file)
-    print(result)
     assert result.base_url == 'https://api.twitter.com/1.1'
