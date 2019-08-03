@@ -1,6 +1,6 @@
 import pytest
 
-from hastag_counter import Configuration
+from hashtag_counter import Configuration
 
 
 def test_configuration_with_non_existent_file(non_existent_config_file):

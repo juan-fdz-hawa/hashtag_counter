@@ -1,10 +1,10 @@
 import yaml
 
-from flask import Flask, render_template, jsonify, request, session
+from flask import Flask, render_template
 from rauth import OAuth1Service
 from os import path
 
-from hastag_counter import Configuration
+from hashtag_counter import Configuration
 
 app = Flask(__name__, template_folder='.')
 
