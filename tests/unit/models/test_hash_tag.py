@@ -23,11 +23,3 @@ def test_to_str():
     hash_tag = HashTag('food')
     hash_tag.count = 100
     assert str(hash_tag) == f'{hash_tag.name}\nCount: {hash_tag.count}'
-
-
-def test_on_update():
-    mock = Mock()
-    hash_tag = HashTag('food')
-    hash_tag.on_update(lambda x: mock.something())
-    hash_tag.update_count(100)
-    mock.something.assert_called_once()

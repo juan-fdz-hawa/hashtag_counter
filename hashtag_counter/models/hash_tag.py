@@ -1,32 +1,40 @@
-from urllib.parse import parse_qsl
 import re
+from typing import Dict
+
+from urllib.parse import parse_qsl
 
 
 class HashTag:
+    """
+    Represents a Twitter hash tags.
+    Hash tags can not contain punctuations nor spaces.
+    """
+
+    # Hash tags can not have any punctuation nor spaces.
     invalid_tag_patter = re.compile(r'[ .,$!"\']')
 
     def __init__(self, name):
+        """
+        Builds a new instance of a HasTag, if an
+        invalid name is provided a ValueError will be
+        thrown
+        :param name: HashTag name
+        """
         if HashTag.invalid_tag_patter.search(name):
             raise ValueError('Invalid hash tag!')
         self.name = name
         self.count = 0
         self.refresh_url = None
-        self.callbacks = []
 
     def __str__(self):
         return f'{self.name}\nCount: {self.count}'
 
-    def on_update(self, callback):
-        self.callbacks.append(callback)
-
-    def update_count(self, count):
-        self.count = count
-        for callback in self.callbacks:
-            print('Calling callback')
-            callback(self)
-
     @property
-    def query(self):
+    def query(self) -> Dict[str, str]:
+        """
+        Query string params of the given tag
+        :return:
+        """
         if self.refresh_url:
             return dict(parse_qsl(self.refresh_url))
         return {
