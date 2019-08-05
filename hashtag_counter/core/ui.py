@@ -1,19 +1,22 @@
 from tkinter import Frame, Label, StringVar
 from typing import List
 
-from hashtag_counter.hash_tag_store import HashTagStore
+from hashtag_counter import HashTagStore
+from hashtag_counter.models.hash_tag import HashTag
 
 
 class UI(Frame):
-    def __init__(self, master=None, hash_tags=List[str]):
+    def __init__(self, master=None, store=HashTagStore):
         super().__init__(master)
 
-        self._labels = {h: StringVar() for h in hash_tags}
-
-        store = HashTagStore(hash_tags)
-        store.on_update(lambda x: self._labels[x.name].set(str(x)))
+        self._labels = {hash_tag.name: StringVar() for hash_tag in store}
+        store.on_update(lambda hash_tags: self._update_labels(hash_tags))
 
         self.display()
+
+    def _update_labels(self, hash_tags: List[HashTag]):
+        for hash_tag in hash_tags:
+            self._labels[hash_tag.name].set(str(hash_tag))
 
     def display(self):
         # Header

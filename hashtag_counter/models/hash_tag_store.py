@@ -8,9 +8,13 @@ class HashTagStore:
     Keep tracks of all hash tags. Updating all listeners
     whenever the counts are updated.
     """
+
     def __init__(self, hash_tags_names: List[str]):
         self._hash_tags = {h: HashTag(h) for h in hash_tags_names}
         self._callbacks = []
+
+    def __iter__(self):
+        return self._hash_tags.items().__iter__()
 
     def on_update(self, callback: Callable[[HashTag], None]) -> None:
         """
@@ -20,14 +24,24 @@ class HashTagStore:
         """
         self._callbacks.append(callback)
 
-    def update(self, results: List[Tuple[str, int]]) -> None:
+    def update_all(self, results: List[Tuple[str, object]]) -> None:
         """
         Updates all hash tags based on the contents of results.
-        Results is a list of hash tag names count pairs. Hash tags
-        are indexed based on their names and if any match is found
-        its count is updated, after all this, all registered listeners
-        will be notified.
-        :param results: List of (hash tag names, count)
+        Results will be filled from results of the requester.get_count,
+        the first part of a result is the hash tag name, the second part
+        is the response we got from the twitter api.
+        After updating all hash tags, all listeners will be notified.
+        :param results: List of (hash tag names, results)
         :return: None
         """
-        pass
+        for tag_name, result in results:
+            notify = False
+            hash_tag = self._hash_tags.get(tag_name)
+
+            if hash_tag:
+                self._hash_tags.update({tag_name: hash_tag.update(result)})
+                notify = True
+
+            if notify:
+                for callback in self._callbacks:
+                    callback(self._hash_tags.values())

@@ -53,9 +53,26 @@ def args_with_duplicated_hash_tags():
 
 @pytest.fixture
 def bad_hash_tags():
-    return ['bad one', 'bad.two', 'bad!three', '@badfour', '#bad.six']
+    return ['bad one', 'bad.two', 'bad!three', '@badfour', '#bad.six', 'bad_seven']
 
 
 @pytest.fixture
 def good_hash_tags():
     return ['goodone', 'AnotherExample']
+
+
+@pytest.fixture
+def invalid_api_result():
+    return {
+        'something random': ''
+    }
+
+
+@pytest.fixture
+def valid_api_result():
+    return {
+        'search_metadata': {
+            'refresh_url': 'something',
+            'statuses': ['status_1', 'status_2']
+        }
+    }

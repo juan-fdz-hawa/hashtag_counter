@@ -11,7 +11,7 @@ class HashTag:
     """
 
     # Hash tags can not have any punctuation nor spaces.
-    invalid_tag_patter = re.compile(r'[ .,$!"\']')
+    invalid_tag_patter = re.compile(r'[ ._,$!"\'@]')
 
     def __init__(self, name):
         """
@@ -29,15 +29,31 @@ class HashTag:
     def __str__(self):
         return f'{self.name}\nCount: {self.count}'
 
-    @property
-    def query(self) -> Dict[str, str]:
+    def query_params(self) -> Dict[str, str]:
         """
-        Query string params of the given tag
-        :return:
+        :return: Query params for the current hash tag
         """
         if self.refresh_url:
-            return dict(parse_qsl(self.refresh_url))
+            return dict(parse_qsl(self.refresh_url[1:]))
         return {
-            'url_params': self.name,
+            'q': f'#{self.name}',
             'result_type': 'mixed'
         }
+
+    def update_from(self, api_result):
+        """
+        Updates this hash tag based on the given Twitter API
+        response
+        :param api_result: Response we got from the Twitter API
+        :return: New Hash tag with all proper fields updated
+        """
+        if 'search_metadata' not in api_result:
+            raise ValueError('Invalid API result!')
+
+        refresh_url = api_result['search_metadata']['refresh_url']
+        count = len(api_result['search_metadata']['statuses'])
+
+        new_hash_tag = HashTag(self.name)
+        new_hash_tag.refresh_url = refresh_url
+        new_hash_tag.count = self.count + count
+        return new_hash_tag
