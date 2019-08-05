@@ -5,7 +5,7 @@ from logging.config import fileConfig
 
 def get_logger() -> Logger:
     """
-    Based on settings inside logger.ini, returns a new Logger instance
+    Creates a new Logger from the settings inside logger.ini.
     :return: New logger instance
     """
     config_path = path.join(path.dirname(__file__), 'logger.ini')

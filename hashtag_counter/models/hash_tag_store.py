@@ -16,7 +16,7 @@ class HashTagStore:
     def __iter__(self):
         return self._hash_tags.items().__iter__()
 
-    def on_update(self, callback: Callable[[HashTag], None]) -> None:
+    def on_update(self, callback: Callable[[List[HashTag]], None]) -> None:
         """
         Registers a new listener
         :param callback: Func to call when a new count is posted

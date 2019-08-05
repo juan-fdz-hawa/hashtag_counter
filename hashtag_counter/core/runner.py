@@ -11,11 +11,11 @@ class Runner:
         self.on_error = on_error
         self.on_complete = on_complete
 
-    def execute(self, requester: Callable[[HashTag], (str, int)], payloads: List[HashTag]):
+    def execute(self, requester: Callable[[HashTag], (str, dict)], payloads: List[HashTag]):
         """
-        Executes the given requester func (HashTag -> [(str, int)]) in parallel
-        creating a new process for each payload.
-        :param requester: Function used for loading the count of a hash tag
+        Executes the given requester func (HashTag -> [(str, dict)]) in parallel
+        creating a new process for each request.
+        :param requester: Function used for performing the API request.
         :param payloads: List of hash tags to past to the requester func
         :return: None
         """

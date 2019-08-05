@@ -1,12 +1,11 @@
 from argparse import ArgumentParser
 
 
-def process_args(args, logger, max_hash_tags =4):
+def process_args(args, logger, max_hash_tags=4):
     """
     Validates hash tags read from CLI, logging any data constraints violations:
     1 - If there are duplicated hash tags, those will be removed.
-    2 - In case that more than 'max_hash_tags' unique hash tags are provided,
-    just take the first 'max_hash_tags'
+    2 - If user types more than 'max_hash_tags' unique hash, just take the first 'max_hash_tags'
     :param max_hash_tags: Max number of unique hash tags allowed
     :param args: Args read from CLI
     :param logger: Logger used for logging
@@ -30,15 +29,16 @@ def read_args():
     :return: All hash tag read
     """
     arg_parser = ArgumentParser(
-        prog='hash_tag_counter',
+        prog='hashtag_counter',
         description='Given a list of tags, returns all counts'
     )
 
     arg_parser.add_argument(
-        '-h',
-        '--hash-tags',
+        '-t',
+        '--tags',
         required=True,
-        help='List of hash tags (separated by space) that will be used for the counting',
+        dest='hash_tags',
+        help='List of hash tags (separated by space)',
         nargs='+'
     )
 
