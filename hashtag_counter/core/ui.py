@@ -8,7 +8,7 @@ class UI(Frame):
     def __init__(self, master=None, store=HashTagStore, on_update_btn_click=None):
         super().__init__(master)
 
-        self._labels = {hash_tag.name: StringVar() for hash_tag in store}
+        self._labels = {hash_tag.name: StringVar(value=str(hash_tag)) for hash_tag in store}
         store.on_update(lambda hash_tags: self._update_labels(hash_tags))
 
         self._on_update_btn_click = on_update_btn_click

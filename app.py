@@ -13,6 +13,7 @@ def main():
     logger = get_logger()
     args = process_args(read_args(), logger)
 
+    store = HashTagStore(args.hash_tags)
     requester = Requester(config_path)
     runner = Runner(
         on_success=lambda results: store.update_all(results),
@@ -20,7 +21,6 @@ def main():
         on_complete=on_complete
     )
 
-    store = HashTagStore(args.hash_tags)
     fetcher = fetcher_of_counts(runner, requester, store)
     launch_ui(fetcher, store)
 
@@ -49,7 +49,7 @@ def fetcher_of_counts(runner, requester, store):
 
 
 def on_error(error):
-    print(f'Opsy daisy, something went wrong {error}')
+    print(f'Oopsy daisies, something went wrong {error}')
 
 
 def on_complete():
