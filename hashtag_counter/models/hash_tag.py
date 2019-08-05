@@ -1,5 +1,4 @@
 import re
-from pprint import pprint
 from typing import Dict
 
 from urllib.parse import parse_qsl
@@ -7,8 +6,8 @@ from urllib.parse import parse_qsl
 
 class HashTag:
     """
-    Represents a Twitter hash tags.
-    Hash tags can not contain punctuations nor spaces.
+    Represents a Twitter hash tag.
+    A Hash tags can not contain any punctuations nor spaces.
     """
 
     # Hash tags can not have any punctuation nor spaces.
@@ -28,7 +27,7 @@ class HashTag:
         self.refresh_url = None
 
     def __str__(self):
-        return f'{self.name}\nCount: {self.count}'
+        return f'#{self.name}\nCount: {self.count}'
 
     def query_params(self) -> Dict[str, str]:
         """
@@ -51,9 +50,8 @@ class HashTag:
         if 'search_metadata' not in api_result:
             raise ValueError('Invalid API result!')
 
-        metadata = api_result['search_metadata']
-        refresh_url = metadata['search_metadata']['refresh_url']
-        count = len(metadata['statuses'])
+        refresh_url = api_result['search_metadata']['refresh_url']
+        count = len(api_result['statuses'])
 
         new_hash_tag = HashTag(self.name)
         new_hash_tag.refresh_url = refresh_url

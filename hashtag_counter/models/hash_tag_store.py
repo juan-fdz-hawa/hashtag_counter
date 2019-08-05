@@ -5,8 +5,8 @@ from hashtag_counter import HashTag
 
 class HashTagStore:
     """
-    Keep tracks of all hash tags. Updating all listeners
-    whenever the counts are updated.
+    Keep tracks of all hash tags, updating all listeners
+    whenever all hash tags are updated.
     """
 
     def __init__(self, hash_tags_names: List[str]):

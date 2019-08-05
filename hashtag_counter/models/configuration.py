@@ -9,9 +9,8 @@ class Configuration:
     """
     Represents a configuration file.
     A configuration file can be build from many sources
-    (right now only yaml file is supported) and a configuration
-    file has a series of required properties (checked by the
-    _config_is_valid method).
+    (right now only yaml file is supported) and  has a series of required
+    properties.
     """
 
     @staticmethod

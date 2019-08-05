@@ -34,7 +34,7 @@ def test_query_params_refresh_url_set():
 def test_to_str():
     hash_tag = HashTag('food')
     hash_tag.count = 100
-    assert str(hash_tag) == f'{hash_tag.name}\nCount: {hash_tag.count}'
+    assert str(hash_tag) == f'#{hash_tag.name}\nCount: {hash_tag.count}'
 
 
 def test_update_from_result_invalid_api_result(invalid_api_result):
@@ -50,5 +50,5 @@ def test_update_from_result_valid_api_result(valid_api_result):
     result = hash_tag.update_from(valid_api_result)
 
     assert result.name == 'milk'
-    assert result.refresh_url == valid_api_result['search_metadata']['search_metadata']['refresh_url']
-    assert result.count == len(valid_api_result['search_metadata']['statuses'])
+    assert result.refresh_url == valid_api_result['search_metadata']['refresh_url']
+    assert result.count == len(valid_api_result['statuses'])

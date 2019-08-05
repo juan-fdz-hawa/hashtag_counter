@@ -26,4 +26,4 @@ class Requester:
         :return: A tuple of (hash_tag.name, response.json)
         """
         result = self._api.search(**hash_tag.query_params())
-        return hash_tag.name, {'search_metadata': result}
+        return hash_tag.name, result
