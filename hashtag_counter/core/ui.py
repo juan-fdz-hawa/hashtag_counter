@@ -1,8 +1,7 @@
 from tkinter import Frame, Label, StringVar, Button
 from typing import List
 
-from hashtag_counter import HashTagStore
-from hashtag_counter.models.hash_tag import HashTag
+from hashtag_counter import HashTagStore, HashTag
 
 
 class UI(Frame):
@@ -27,13 +26,13 @@ class UI(Frame):
         # Header
         Label(
             self,
-            text='HashTagCounter',
+            text='Hash Tag Counter',
             font=('Helvetica', 24),
             height=4
         ).pack()
 
         # HashTags
-        for _, var in self._labels:
+        for var in self._labels.values():
             label = Label(
                 self,
                 textvariable=var,
@@ -44,7 +43,8 @@ class UI(Frame):
         # Update btn
         Button(
             self,
-            style='start.TButton',
             text='Update',
             command=self._on_update_btn_click
-        ).pack()
+        ).pack(side='bottom')
+
+        self.pack()

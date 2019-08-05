@@ -50,5 +50,5 @@ def test_update_from_result_valid_api_result(valid_api_result):
     result = hash_tag.update_from(valid_api_result)
 
     assert result.name == 'milk'
-    assert result.refresh_url == valid_api_result['search_metadata']['refresh_url']
+    assert result.refresh_url == valid_api_result['search_metadata']['search_metadata']['refresh_url']
     assert result.count == len(valid_api_result['search_metadata']['statuses'])

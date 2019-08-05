@@ -72,7 +72,9 @@ def invalid_api_result():
 def valid_api_result():
     return {
         'search_metadata': {
-            'refresh_url': 'something',
+            'search_metadata': {
+                'refresh_url': 'something',
+            },
             'statuses': ['status_1', 'status_2']
         }
     }

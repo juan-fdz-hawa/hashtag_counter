@@ -1,6 +1,7 @@
 from concurrent.futures.process import ProcessPoolExecutor
-from typing import List, Callable
-from functools import reduce
+from typing import List, Callable, Tuple
+
+from rx import from_future, merge
 
 from hashtag_counter import HashTag
 
@@ -11,7 +12,7 @@ class Runner:
         self.on_error = on_error
         self.on_complete = on_complete
 
-    def execute(self, requester: Callable[[HashTag], (str, dict)], payloads: List[HashTag]):
+    def execute(self, requester: Callable[[HashTag], Tuple[str, dict]], payloads: List[HashTag]):
         """
         Executes the given requester func (HashTag -> [(str, dict)]) in parallel
         creating a new process for each request.
@@ -19,12 +20,9 @@ class Runner:
         :param payloads: List of hash tags to past to the requester func
         :return: None
         """
+        observables = []
         with ProcessPoolExecutor() as executor:
-            reduce(
-                lambda a, c: a.merge(c),
-                executor.map(requester, payloads)
-            ).subscribe(
-                self.on_success,
-                self.on_error,
-                self.on_complete
-            )
+            for payload in payloads:
+                _future = executor.submit(requester, payload)
+                observables.append(from_future(_future))
+        merge(*observables).subscribe(self.on_success, self.on_error, self.on_complete)

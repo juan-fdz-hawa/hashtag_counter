@@ -14,7 +14,7 @@ class HashTagStore:
         self._callbacks = []
 
     def __iter__(self):
-        return self._hash_tags.items().__iter__()
+        return self._hash_tags.values().__iter__()
 
     def on_update(self, callback: Callable[[List[HashTag]], None]) -> None:
         """
@@ -24,7 +24,7 @@ class HashTagStore:
         """
         self._callbacks.append(callback)
 
-    def update_all(self, results: List[Tuple[str, object]]) -> None:
+    def update_all(self, results: Tuple[str, object]) -> None:
         """
         Updates all hash tags based on the contents of results.
         Results will be filled from results of the requester.get_count,
@@ -34,14 +34,14 @@ class HashTagStore:
         :param results: List of (hash tag names, results)
         :return: None
         """
-        for tag_name, result in results:
-            notify = False
-            hash_tag = self._hash_tags.get(tag_name)
+        tag_name, result = results
+        notify = False
+        hash_tag = self._hash_tags.get(tag_name)
 
-            if hash_tag:
-                self._hash_tags.update({tag_name: hash_tag.update(result)})
-                notify = True
+        if hash_tag:
+            self._hash_tags.update({tag_name: hash_tag.update_from(result)})
+            notify = True
 
-            if notify:
-                for callback in self._callbacks:
-                    callback(self._hash_tags.values())
+        if notify:
+            for callback in self._callbacks:
+                callback(self._hash_tags.values())

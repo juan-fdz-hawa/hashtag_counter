@@ -1,4 +1,5 @@
 import re
+from pprint import pprint
 from typing import Dict
 
 from urllib.parse import parse_qsl
@@ -50,8 +51,9 @@ class HashTag:
         if 'search_metadata' not in api_result:
             raise ValueError('Invalid API result!')
 
-        refresh_url = api_result['search_metadata']['refresh_url']
-        count = len(api_result['search_metadata']['statuses'])
+        metadata = api_result['search_metadata']
+        refresh_url = metadata['search_metadata']['refresh_url']
+        count = len(metadata['statuses'])
 
         new_hash_tag = HashTag(self.name)
         new_hash_tag.refresh_url = refresh_url
